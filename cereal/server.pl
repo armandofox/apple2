@@ -40,7 +40,7 @@ sub do_read {
     my $data = pack('C3', ord('<'), $Last_block % 256, $Last_block >> 8);
     $count = &send_n_bytes($data);
     die "Can't send <nn ack" unless $count == 3;
-    
+}
 
 sub main2 {
     my $wrote;

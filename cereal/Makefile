@@ -2,14 +2,19 @@
 BLANKDISK = ./blank_dos33.dsk
 ADDR  =  300
 
-CEREAL3.dsk: a.out
+CEREAL3.dsk: prodos.bin
 	cp $(BLANKDISK) $@
 	a2in b.$(ADDR) $@ $(basename $@) < $^
+
+CEREALTEST.dsk: cerealtest.bin
+	cp $(BLANKDISK) $@
+	a2in b.$(ADDR) $@ $(basename $@) < $^
+	a2in t $@ CEREALTEST.EXEC < cerealtest.txt
 
 %.o: %.s
 	ca65 $<
 
-a.out: prodos.o 
+%.bin: %.o 
 	ld65 -t none -o $@ -S $(ADDR) -m $@.map $^
 
 clean:
