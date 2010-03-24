@@ -72,6 +72,13 @@ INITSSC:
         ldy #PSPEED     ; CONTROL: 8 DATA BITS, 1 STOP
         lda BPSCTRL,Y   ; BIT, BAUD RATE DEPENDS ON
         sta ssc_ctrl    ; PSPEED
+        ;; fall through to RESETSSC
+;---------------------------------------------------------
+; RESETSSC - Clean up SSC
+;---------------------------------------------------------
+RESETSSC:
+        bit ssc_data    ; CLEAR SSC INPUT REGISTER
+        rts
         rts
 
 ;---------------------------------------------------------
@@ -131,12 +138,6 @@ gotit:
         clc
         rts
 
-;---------------------------------------------------------
-; RESETSSC - Clean up SSC
-;---------------------------------------------------------
-RESETSSC:
-        bit ssc_data    ; CLEAR SSC INPUT REGISTER
-        rts
 
 BPSCTRL:        .byte $13,$16,$18,$1A      ; 110, 300, 1200, 2400
                 .byte $1E,$1F,$10   ; 9600, 19200, 115k
